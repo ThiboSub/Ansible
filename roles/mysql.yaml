@@ -1,0 +1,24 @@
+- name: Install MySQL (or MariaDB)
+  remote_user: root
+  hosts: mysqlserver
+  become: true
+  become_user: root
+  vars:
+    MySQL_root_pass: ReplaceWithYourPassword
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install MariaDB (MySQL alternative)
+      apt:
+        name: "{{ item }}"
+        state: present
+        force: yes
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+      with_items:
+        - mariadb-server
+        - mariadb-client
+

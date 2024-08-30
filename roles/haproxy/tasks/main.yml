@@ -1,0 +1,19 @@
+---
+# roles/haproxy/tasks/main.yml
+- name: Installer HAProxy
+  apt:
+    name: haproxy
+    state: present
+    update_cache: yes
+
+- name: Copier la configuration HAProxy
+  template:
+    src: haproxy.cfg.j2
+    dest: "{{ haproxy_cfg }}"
+  notify: Restart HAProxy
+
+- name: Démarrer et activer HAProxy
+  service:
+    name: haproxy
+    state: started
+    enabled: yes

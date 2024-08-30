@@ -1,0 +1,5 @@
+# haproxy-deploy.yml
+- hosts: haproxy_servers
+  become: yes
+  roles:
+    - haproxy
